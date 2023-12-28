@@ -1,5 +1,5 @@
 - name: mongodb
-  hosts: mongodb.gspaws.online
+  hosts: 172.31.22.31
   become: yes
   tasks:
   - name: Copy mongodb repo
