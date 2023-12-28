@@ -1,2 +1,8 @@
 [mongodb]
 mongodb.gspaws.online
+
+[catalogue]
+catalogue.gspaws.online
+
+[web]
+web.gspaws.online
