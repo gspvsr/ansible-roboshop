@@ -2,13 +2,18 @@
   hosts: mongodb
   become: yes
   tasks:
-    - name: copy mongo report to yum.repos.d
+    - name: Copy MongoDB repository file
       ansible.builtin.copy:
         src: mongodb.repo
         dest: /etc/yum.repos.d/mongo.repo
-    - name: install MongoDB
+
+    - name: Install MongoDB
       ansible.builtin.yum:
         name: mongodb-org
-        state: installed 
-    - name: start and enable mongodb
+        state: installed
+
+    - name: Start and enable MongoDB service
       ansible.builtin.service:
+        name: mongod
+        state: started
+        enabled: yes
