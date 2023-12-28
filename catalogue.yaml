@@ -1,6 +1,6 @@
-- name: catalogue
+- name: install catalouge component
   hosts: catalogue
   become: yes
   tasks:
   - name: download and run the script
-   ansible.builtin.script:: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+   ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
