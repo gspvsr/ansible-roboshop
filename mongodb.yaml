@@ -1,5 +1,5 @@
 - name: Install MongoDB component
-  hosts: mongodb
+  hosts: 172.31.93.101
   become: yes
   tasks:
     - name: Copy MongoDB repository file
