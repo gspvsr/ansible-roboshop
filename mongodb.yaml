@@ -1,5 +1,5 @@
 - name: Install MongoDB component
-  hosts: mongodb
+  hosts: mongodb.gspaws.online
   become: yes
   tasks:
   - name: copy mongo report to yum.repos.d
