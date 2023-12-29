@@ -8,7 +8,7 @@
   - name: Install NodeJS
     ansible.builtin.apt:
       name: nodejs
-      state: installed
+      state: present
 
   - name: check roboshop user exist or not
     ansible.builtin.command: id roboshop
