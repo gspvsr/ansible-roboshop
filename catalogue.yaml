@@ -5,6 +5,11 @@
   - name: setup NPM source
     ansible.builtin.shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
 
+  - name: Import NodeSource GPG key
+    ansible.builtin.rpm_key:
+      key: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+      state: present
+
   - name: Install NodeJS
     ansible.builtin.yum:
       name: nodejs
