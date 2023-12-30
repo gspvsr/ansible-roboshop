@@ -79,3 +79,9 @@
       name: catalogue
       state: started
       enabled: yes
+
+  - name: start and enable to redis
+    ansible.builtin.service:
+      name: redis
+      state: started
+      enable: yes

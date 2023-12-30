@@ -16,5 +16,8 @@
       name: redis
       state: installed
 
-
-  
+  - name: allow remote connections to redis
+    ansibile.builtin.replace:
+    path: /etc/ssh/sshd_config
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
