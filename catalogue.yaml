@@ -40,3 +40,14 @@
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
       dest: /tmp
+
+  - name: Extracting the catalouge artifact
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+
+- name: Install NPM packages
+  ansible.builtin.shell:
+    cmd: npm install
+    chdir: /path/to/your/nodejs/project
+    remote_src: yes
