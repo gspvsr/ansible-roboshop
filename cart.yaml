@@ -1,0 +1,69 @@
+- name: Install cart component
+  hosts: cart
+  become: yes
+  tasks:
+  - name: disable old nodejs and enable nodejs
+    ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:18 -y
+
+  - name: Install NodeJS
+    ansible.builtin.dnf:
+      name: nodejs
+      state: present
+
+  - name: check roboshop user exist or not
+    ansible.builtin.command: id roboshop
+    register: out #output is variable name
+    ignore_errors: true
+
+  - when: out.rc != 0
+    name: create user roboshop
+    become: yes # we need sudo access for this task only
+    ansible.builtin.user:
+      name: roboshop
+
+  - name: check /app directory exists or not
+    ansible.builtin.stat:
+      path: /app
+    register: directory
+
+  - name: print the directory stats
+    ansible.builtin.debug:
+      msg: "output: {{directory}}"
+
+  - when: directory.stat.exists == False
+    name: create /app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+  
+  - name: download the catalouge.zip
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/cart.zip
+      dest: /tmp
+
+  - name: Extracting the catalouge artifact
+    ansible.builtin.unarchive:
+      src: /tmp/cart.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install dependences
+    ansible.builtin.command: npm install
+    args:
+      chdir: /app
+
+  - name: Copy the cart service
+    ansible.builtin.copy:
+      src: cart.service
+      dest: /etc/systemd/system/cart.service
+
+  - name: load cart data
+    ansible.builtin.command: mongo --host mongodb.gspaws.online < /app/schema/cart.js
+
+  - name: Start service cart
+    ansible.builtin.service:
+      name: cart
+      state: started
+      enabled: yes
+
+  
