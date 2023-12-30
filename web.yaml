@@ -9,8 +9,8 @@
 
   - name: Start service nginx
     ansible.builtin.service:
-    name: nginx
-    state: started
+      name: nginx
+      state: started
     enabled: yes
 
   - name: Remove html directory
@@ -20,7 +20,7 @@
 
   - name: create a html directory
     ansible.builtin.file:
-     path: /usr/share/nginx/html/
+      path: /usr/share/nginx/html/
       state: directory
 
   - name: download the web.zip
