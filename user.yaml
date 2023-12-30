@@ -41,7 +41,7 @@
     ansible.builtin.unarchive:
       src: /tmp/user.zip
       dest: /app 
-    remote_src: yes
+      remote_src: yes
 
   - name: install dependences
     ansible.builtin.command: npm install
