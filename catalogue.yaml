@@ -2,11 +2,11 @@
   hosts: catalogue
   become: yes
   tasks:
-  - name: setup NPM source
-    ansible.builtin.shell: "curl -sL https://rpm.nodesource.com/setup_18.x | bash"
+  - name: disable old nodejs and enable nodejs
+    ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:18 -y
 
   - name: Install NodeJS
-    ansible.builtin.yum:
+    ansible.builtin.dnf:
       name: nodejs
       state: present
 
