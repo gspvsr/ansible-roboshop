@@ -39,5 +39,7 @@
       src: roboshop.conf
       dest: /etc/nginx/default.d/roboshop.conf 
 
-  - name: Unconditionally reboot the machine with all defaults
-    ansible.builtin.reboot:
+  - name: restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
