@@ -2,7 +2,7 @@
   hosts: web
   become: yes
   tasks:
-  - name: starting nginx service
+  - name: install nginx
     ansible.builtin.yum:
     name: nginx
     state: started
