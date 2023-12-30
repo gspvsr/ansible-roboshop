@@ -2,19 +2,17 @@
   hosts: redis
   become: yes
   tasks:
-  - name: Installing the redis repo
-    ansible.builtin.yum:
+  - name: Installing the remi release
+    ansible.builtin.dnf:
       name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-      state: installed
+      state: present
       disable_gpg_check: true
 
-  - name: Enable redis 6.2
-    ansible.builtin.yum:
-      name: redis:remi-6.2
-      state: present
+  - name: Enable redis
+    ansible.builtin.command: dnf module enable redis:remi-6.2 -y
     
   - name: Install redis
-    ansible.builtin.yum:
+    ansible.builtin.dnf:
       name: redis
       state: installed
 
