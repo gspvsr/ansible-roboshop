@@ -23,12 +23,12 @@
       path: /usr/share/nginx/html/
       state: directory
 
-  - name: download the web.zip
+  - name: download the artifact
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/web.zip
       dest: /tmp
 
-  - name: Extracting the catalouge artifact
+  - name: Extracting the web artifact
     ansible.builtin.unarchive:
       src: /tmp/web.zip
       dest: /usr/share/nginx/html
