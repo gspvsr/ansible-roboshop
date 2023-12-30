@@ -7,10 +7,11 @@
     name: nginx
     state: installed
 
-  - name: Start service nginx
+  - name: Started and service nginx
     ansible.builtin.service:
       name: nginx
       state: started
+      enabled: yes
 
   - name: Remove html directory
     ansible.builtin.file:
