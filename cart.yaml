@@ -57,8 +57,8 @@
       src: cart.service
       dest: /etc/systemd/system/cart.service
 
-  - name: load cart data
-    ansible.builtin.command: mongo --host mongodb.gspaws.online < /app/schema/cart.js
+   - name: load catalogue data
+    ansible.builtin.command: mongo --host mongodb.gspaws.online < /app/schema/user.js
 
   - name: Start service cart
     ansible.builtin.service:
