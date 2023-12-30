@@ -54,14 +54,14 @@
 
   - name: Copy the catalogue service
     ansible.builtin.copy:
-      src: /catalogue.service
+      src: catalogue.service
       dest: /etc/systemd/system/catalogue.service
 
   - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
     ansible.builtin.systemd :
       daemon_reload: true
         
-  - name: Copy mongodb repo to yum.repos.d
+  - name: Copy mongodb repo to yum.epos.d
     ansible.builtin.copy:
       src: mongodb.repo
       dest: /etc/yum.repos.d/mongo.repo
