@@ -41,7 +41,7 @@
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/payment.zip
       dest: /app
-    remote_src: yes
+      remote_src: yes
 
   - name: Install Python dependencies
     ansible.builtin.command: pip3.6 install -r requirements.txt
