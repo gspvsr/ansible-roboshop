@@ -50,7 +50,7 @@
       chdir: /app
 
   - name: copy shipping services
-    ansbile.builtin.copy:
+    ansible.builtin.copy:
       src: shipping.service
       dest: /etc/systemd/system/shipping.service
 
@@ -60,7 +60,7 @@
 
   - name: install Mysql client
     ansible.builtin.yum:
-      name: mysql
+      name: mysqlss
       state: installed
 
   - name: load mysql schema
