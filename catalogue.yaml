@@ -76,8 +76,8 @@
   - name: load catalogue data
     ansible.builtin.shell: mongo --host mongodb.gspaws.online < /app/schema/catalogue.js
 
-  - name: Start service mongod
+  - name: Start service mongodb
     ansible.builtin.service:
-      name: mongod
+      name: mongodb
       state: started
       enabled: yes
