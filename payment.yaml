@@ -2,9 +2,9 @@
   hosts: payment
   become: yes
   tasks:
-  - name: Install Python36 and dependencies
+  - name: Install python
     ansible.builtin.yum:
-      name: "{{ item }}"
+      name: "{{item}}"
       state: installed
     loop:
       - python36
@@ -35,7 +35,6 @@
     ansible.builtin.file:
       path: /app
       state: directory
-    when: directory.stat.exists == False
 
   - name: Download the payment extract
     ansible.builtin.unarchive:
@@ -57,8 +56,8 @@
     ansible.builtin.systemd:
       daemon_reload: yes
 
-  - name: restart the payment
+   - name: restart payment
     ansible.builtin.service:
       name: payment
       state: restarted
-      enabled: yes
+      enabled: true
