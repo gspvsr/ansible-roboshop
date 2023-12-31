@@ -67,10 +67,10 @@
       name: mongodb-org
       state: present
 
-  - name: load catalogue data
+  - name: load user data
     ansible.builtin.shell: mongo --host mongodb.gspaws.online < /app/schema/user.js
 
-  - name: Start service catalogue
+  - name: Start service user
     ansible.builtin.service:
       name: user
       state: started
