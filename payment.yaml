@@ -38,7 +38,7 @@
     when: directory.stat.exists == False
 
   - name: Download the payment extract
-    ansible.builtin.unarchieve:
+    ansible.builtin.unarchive:
       src: https://roboshop-builds.s3.amazonaws.com/payment.zip
       dest: /app
       remote_src: yes
