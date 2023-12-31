@@ -64,8 +64,8 @@
     ansible.builtin.systemd:
       daemon_reload: yes
 
-  - name: Start the payment service
-    ansible.builtin.service:
+  - name: Unmask and start the payment service
+    ansible.builtin.systemd:
       name: payment
-      state: restarted
+      state: started
       enabled: yes
