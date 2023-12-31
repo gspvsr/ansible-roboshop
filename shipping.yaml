@@ -35,7 +35,7 @@
 
   - name: download shipping and extract
     ansible.builtin.unarchive:
-      src: https://roboshop-builds.s3.amazonaws.com/shipping.zip
+      src: https://roboshop-builds.s3.amazonaws.com/shipping.zip # this is downloading and extracting directly to app folder
       dest: /app
       remote_src: yes
 
@@ -60,7 +60,7 @@
 
   - name: install Mysql client
     ansible.builtin.yum:
-      name: mysqlss
+      name: mysql
       state: installed
 
   - name: load mysql schema
