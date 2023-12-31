@@ -40,18 +40,11 @@
   - name: Download the payment extract
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/payment.zip
-      dest: /tmp/payment.zip
-    args:
-      force: yes
-
-  - name: Extract payment artifact
-    ansible.builtin.unarchive:
-      src: /tmp/payment.zip
       dest: /app
-      remote_src: yes
+    remote_src: yes
 
   - name: Install Python dependencies
-    ansible.builtin.command: pip3.6 install -r /app/requirements.txt
+    ansible.builtin.command: pip3.6 install -r requirements.txt
     args:
       chdir: /app
 
@@ -67,5 +60,5 @@
   - name: Unmask and start the payment service
     ansible.builtin.systemd:
       name: payment
-      state: started
+      state: restarted
       enabled: yes
