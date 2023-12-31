@@ -54,7 +54,7 @@
       src: shipping.service
       dest: /etc/systemd/system/shipping.service
 
-  - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+  - name: Reloading
     ansible.builtin.systemd :
       daemon_reload: true
 
@@ -69,6 +69,6 @@
   - name: Start service catalogue
     ansible.builtin.service:
       name: user
-      state: started
-      enabled: yes
+      state: restarted
+   
   
