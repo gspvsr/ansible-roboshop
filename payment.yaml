@@ -1,63 +1,71 @@
-name: install payment components
-hosts: payment
-become: yes
-- name: installing the python36
-  ansbile.builtin.yum: 
-    name: "{{item}}"
-    state: installed
-  loop:
-    - python36
-    - gcc
-    - python3-devel
+- name: Install payment components
+  hosts: payment
+  become: yes
+  tasks:
+  - name: Install Python36 and dependencies
+    ansible.builtin.yum:
+      name: "{{ item }}"
+      state: installed
+    loop:
+      - python36
+      - gcc
+      - python3-devel
 
-- name: check roboshop user exist or not
+  - name: Check if roboshop user exists
     ansible.builtin.command: id roboshop
-    register: out #output is variable name
+    register: out
     ignore_errors: true
 
-  - when: out.rc != 0
-    name: create user roboshop
-    become: yes # we need sudo access for this task only
+  - name: Create user roboshop
     ansible.builtin.user:
       name: roboshop
+    when: out.rc != 0
+    become: yes
 
-  - name: check /app directory exists or not
+  - name: Check if /app directory exists
     ansible.builtin.stat:
       path: /app
     register: directory
 
-  - name: print the directory stats
+  - name: Print the directory stats
     ansible.builtin.debug:
-      msg: "output: {{directory}}"
+      msg: "output: {{ directory }}"
 
-  - when: directory.stat.exists == False
-    name: create /app directory
+  - name: Create /app directory
     ansible.builtin.file:
       path: /app
       state: directory
+    when: directory.stat.exists == False
 
-  - name: downloading the payment extract
+  - name: Download the payment extract
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/payment.zip
+      dest: /tmp/payment.zip
+    args:
+      force: yes
+
+  - name: Extract payment artifact
     ansible.builtin.unarchive:
-      src: https://roboshop-builds.s3.amazonaws.com/payment.zip 
-      dest: /app 
+      src: /tmp/payment.zip
+      dest: /app
       remote_src: yes
 
-  - name: install the dependencies
-    ansible.builtin.command: pip3.6 install -r requirements.txt
+  - name: Install Python dependencies
+    ansible.builtin.command: pip3.6 install -r /app/requirements.txt
     args:
       chdir: /app
 
-  - name: copy payment services
+  - name: Copy payment service unit file
     ansible.builtin.copy:
-      src: payment.service
+      src: /app/payment.service
       dest: /etc/systemd/system/payment.service
 
-  - name: deamon reload
+  - name: Reload systemd
     ansible.builtin.systemd:
-      daemon_reload: true
+      daemon_reload: yes
 
-   - name: Start payment
-      ansible.builtin.service:
+  - name: Start the payment service
+    ansible.builtin.service:
       name: payment
       state: started
       enabled: yes
