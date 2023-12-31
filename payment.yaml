@@ -57,7 +57,7 @@
 
   - name: Copy payment service unit file
     ansible.builtin.copy:
-      src: /app/payment.service
+      src: payment.service
       dest: /etc/systemd/system/payment.service
 
   - name: Reload systemd
