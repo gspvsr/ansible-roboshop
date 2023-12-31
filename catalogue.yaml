@@ -36,18 +36,18 @@
       path: /app
       state: directory
   
-  - name: download the catalouge.zip
+  - name: download the catalogue.zip
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
       dest: /tmp
 
-  - name: Extracting the catalouge artifact
+  - name: Extracting the catalogue artifact
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
       dest: /app
       remote_src: yes
 
-  - name: install dependences
+  - name: install dependencies
     ansible.builtin.command: npm install
     args:
       chdir: /app
@@ -57,10 +57,12 @@
       src: catalogue.service
       dest: /etc/systemd/system/catalogue.service
 
-  - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+  - name: Restart service catalogue
     ansible.builtin.systemd :
-      daemon_reload: true
-        
+      name: catalogue
+      state: restarted
+      enabled: yes
+
   - name: Copy mongodb repo to yum.epos.d
     ansible.builtin.copy:
       src: mongodb.repo
@@ -74,10 +76,8 @@
   - name: load catalogue data
     ansible.builtin.command: mongo --host mongodb.gspaws.online < /app/schema/catalogue.js
 
-  - name: Start service catalogue
+  - name: Start service mongod
     ansible.builtin.service:
-      name: catalogue
+      name: mongod
       state: started
       enabled: yes
-
-  
