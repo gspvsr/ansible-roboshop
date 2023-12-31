@@ -6,7 +6,7 @@
   - name: install nginx
     ansible.builtin.yum:
       name: nginx
-      state: absent
+      state: installed
 
   - name: Started and service nginx
     ansible.builtin.service:
