@@ -15,7 +15,7 @@
     register: out #output is variable name
     ignore_errors: true
 
-  - when: out.rc != 0
+  - when: out.rc != 0 # Return code
     name: create user roboshop
     become: yes # we need sudo access for this task only
     ansible.builtin.user:
@@ -41,7 +41,7 @@
       url: https://roboshop-builds.s3.amazonaws.com/cart.zip
       dest: /tmp
 
-  - name: Extracting the catalouge artifact
+  - name: Extracting the cart artifact
     ansible.builtin.unarchive:
       src: /tmp/cart.zip
       dest: /app
@@ -56,9 +56,10 @@
     ansible.builtin.copy:
       src: cart.service
       dest: /etc/systemd/system/cart.service
-
-  - name: load user data
-    ansible.builtin.command: /usr/bin/mongo --host mongodb.gspaws.online </app/schema/user.js
+  
+  - name: deamon reload
+    ansible.builtin.systemd:
+      deamon_reload: true
 
   - name: Start service cart
     ansible.builtin.service:
