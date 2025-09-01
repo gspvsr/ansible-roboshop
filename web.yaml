@@ -1,5 +1,5 @@
 - name: install web component
-  hosts: web
+  hosts: web.gspvsr.in
   become: yes
   tasks:
   
